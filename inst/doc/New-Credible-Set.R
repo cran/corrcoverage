@@ -4,7 +4,8 @@ set.seed(18)
 library(corrcoverage)
 
 ## ------------------------------------------------------------------------
-library(simGWAS)
+set.seed(18)
+library(corrcoverage)
 
 #  Simulate reference haplotypes
 nsnps <- 200
@@ -24,17 +25,25 @@ CV <- sample(snps[which(colMeans(haps) > 0.1)], 1)
 iCV <- sub("s", "", CV)  # index of cv
 LD <- cor2(haps) # correlation between SNPs
 
-## ------------------------------------------------------------------------
 OR <- 1.1 # odds ratios
 N0 <- 10000 # number of controls
 N1 <- 10000 # number of cases
-  
-z0 <- simulated_z_score(N0 = N0, # number of controls
-                        N1 = N1, # number of cases
-                        snps = snps, # column names in freq
-                        W = CV, # causal variants, subset of snps
-                        gamma.W = log(OR), # log odds ratios
-                        freq = freq) # reference haplotypes
+
+## ------------------------------------------------------------------------
+z02_file <- system.file('extdata', 'z-scores2.RDS', package='corrcoverage')
+z0 <- readRDS(z02_file)
+
+length(z0)
+z0[1:5]
+
+## ----eval = FALSE--------------------------------------------------------
+#  library(simGWAS)
+#  z0 <- simulated_z_score(N0 = N0, # number of controls
+#                          N1 = N1, # number of cases
+#                          snps = snps, # column names in freq
+#                          W = CV, # causal variants, subset of snps
+#                          gamma.W = log(OR), # log odds ratios
+#                          freq = freq) # reference haplotypes
 
 ## ------------------------------------------------------------------------
 varbeta <- Var.data.cc(f = MAF, N = N1+N0, s = N1/(N0+N1)) # variance of 
@@ -55,15 +64,20 @@ cs <- credset(pp = postprobs, thr = thr)
 data.frame(claimed.cov = cs$claimed.cov, corr.cov =  corrcov, nvar = cs$nvar)
 
 ## ------------------------------------------------------------------------
-z0.tmp <- simulated_z_score(N0 = N0, # number of controls
-                            N1 = N1, # number of cases
-                            snps = snps, # column names in freq
-                            W = CV, # causal variants, subset of snps
-                            gamma.W = log(OR), # log odds ratios
-                            freq = freq, # reference haplotypes
-                            nrep = 5000) 
+z02_rep_file <- system.file('extdata', 'rep-z-scores2.RDS', package='corrcoverage')
+z0.rep <- readRDS(z02_rep_file)
 
-pps <- ppfunc.mat(zstar = z0.tmp, V = varbeta)  # find pps 
+## ----eval = FALSE--------------------------------------------------------
+#  z0.rep <- simulated_z_score(N0 = N0, # number of controls
+#                              N1 = N1, # number of cases
+#                              snps = snps, # column names in freq
+#                              W = CV, # causal variants, subset of snps
+#                              gamma.W = log(OR), # log odds ratios
+#                              freq = freq, # reference haplotypes
+#                              nrep = 1000)
+
+## ------------------------------------------------------------------------
+pps <- ppfunc.mat(zstar = z0.rep, V = varbeta)  # find pps 
 cs.cov <- apply(pps, 1, function(x) credset(x, CV = iCV, thr = thr)$cov)
 true.cov.est <- mean(cs.cov)
 data.frame(claimed.cov = cs$claimed.cov, corr.cov =  corrcov, 
@@ -78,11 +92,11 @@ res
 new.cs.sims <- apply(pps, 1, function(x) credset(x, CV = iCV, thr = res$req.thr)$cov)
 true.cov.est2 <- mean(new.cs.sims)
 
-## ----echo=FALSE----------------------------------------------------------
+## ------------------------------------------------------------------------
 df1 <- data.frame(claimed.cov = round(cs$claimed.cov, 3), corr.cov =  round(corrcov, 3), true.cov = round(true.cov.est, 3), nvar = cs$nvar)
 print(df1, row.names = FALSE)
 
-## ----echo=FALSE----------------------------------------------------------
+## ------------------------------------------------------------------------
 df2 <- data.frame(claimed.cov = round(res$size, 3), corr.cov = round(res$corr.cov, 3), true.cov = round(true.cov.est2, 3), nvar = length(res$credset))
 print(df2, row.names = FALSE)
 
