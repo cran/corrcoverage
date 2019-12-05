@@ -6,6 +6,11 @@ set.seed(2)
 set.seed(2)
 library(corrcoverage)
 
+## ----message = FALSE-----------------------------------------------------
+# library(simGWAS)
+
+data <- system.file("extdata", "", package="corrcoverage")
+
 ## ------------------------------------------------------------------------
 # simulate reference haplotypes
 
@@ -33,27 +38,25 @@ LD <- cor2(haps)
 CV <- sample(snps[which(colMeans(haps)>0.1)],1)
 iCV <- sub("s", "", CV) # index of cv
 OR <- 1.1
-N0 <- 5000 # cases
-N1 <- 5000 # controls
 
 ## ------------------------------------------------------------------------
-z0_file <- system.file('extdata', 'z-scores.RDS', package='corrcoverage')
-z0 <- readRDS(z0_file)
+# z0 <- simulated_z_score(N0=5000, # number of controls
+#               N1=5000, # number of cases
+#              snps=snps, # column names in freq of SNPs
+#              W=CV, # causal variants, subset of snps
+#              gamma.W=log(OR), # log odds ratios
+#              freq=freq # reference haplotypes
+#              )
+
+z0 <- readRDS(paste0(data,"/z0.RDS"))
 
 length(z0)
 z0[1:5]
 
-## ----eval = FALSE--------------------------------------------------------
-#  library(simGWAS)
-#  z0 <- simulated_z_score(N0=5000, # number of controls
-#                N1=5000, # number of cases
-#                snps=snps, # column names in freq of SNPs
-#                W=CV, # causal variants, subset of snps
-#                gamma.W=log(OR), # log odds ratios
-#                freq=freq # reference haplotypes
-#                )
-
 ## ----warning=FALSE, error=FALSE, fig.width=4-----------------------------
+N0 <- 5000 # number of controls
+N1 <- 5000 # number of cases
+
 varbeta <- Var.data.cc(f = MAF, N = N1+N0, s = N1/(N0+N1)) # variance of 
                                                          # estimated effect size
 
@@ -87,21 +90,18 @@ df <- data.frame("Corrected Coverage" = corrected_cov_estimate,
 print(df, row.names = FALSE)
 
 ## ------------------------------------------------------------------------
-z0_rep_file <- system.file('extdata', 'rep-z-scores.RDS', package='corrcoverage')
-z0.rep <- readRDS(z0_rep_file)
+# z0.tmp <- simulated_z_score(N0=5000, # number of controls
+#                            N1=5000, # number of cases
+#                            snps=snps, # column names in freq
+#                            W=CV, # causal variants, subset of snps
+#                            gamma.W=log(OR), # log odds ratios
+#                            freq=freq, # reference haplotypes
+#                            nrep = 200 # 200 simulations
+#)
 
-## ----eval = FALSE--------------------------------------------------------
-#  z0.rep <- simulated_z_score(N0=5000, # number of controls
-#                              N1=5000, # number of cases
-#                              snps=snps, # column names in freq
-#                              W=CV, # causal variants, subset of snps
-#                              gamma.W=log(OR), # log odds ratios
-#                              freq=freq, # reference haplotypes
-#                              nrep = 1000 # 1000 simulations
-#  )
+z0.tmp <- readRDS(paste0(data,"/z0.tmp.RDS"))
 
-## ------------------------------------------------------------------------
-pps <- ppfunc.mat(zstar = z0.rep, V = varbeta) # find pps
+pps <- ppfunc.mat(zstar = z0.tmp, V = varbeta) # find pps
 cs <- apply(pps, 1, function(x) credset(x, CV = iCV, thr = thresh)$cov)
 true.cov.est <- mean(cs)
 true.cov.est
