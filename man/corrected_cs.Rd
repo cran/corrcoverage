@@ -4,8 +4,20 @@
 \alias{corrected_cs}
 \title{Corrected credible set using Z-scores and MAFs}
 \usage{
-corrected_cs(z, f, N0, N1, Sigma, W = 0.2, lower = 0, upper = 1,
-  desired.cov, acc = 0.005, max.iter = 20, pp0min = 0.001)
+corrected_cs(
+  z,
+  f,
+  N0,
+  N1,
+  Sigma,
+  W = 0.2,
+  lower = 0,
+  upper = 1,
+  desired.cov,
+  acc = 0.005,
+  max.iter = 20,
+  pp0min = 0.001
+)
 }
 \arguments{
 \item{z}{Z-scores}

@@ -4,8 +4,7 @@
 \alias{corrected_cov}
 \title{Corrected coverage estimate of the causal variant in the credible set}
 \usage{
-corrected_cov(pp0, mu, V, Sigma, thr, W = 0.2, nrep = 1000,
-  pp0min = 0.001)
+corrected_cov(pp0, mu, V, Sigma, thr, W = 0.2, nrep = 1000, pp0min = 0.001)
 }
 \arguments{
 \item{pp0}{Posterior probabilities of SNPs}

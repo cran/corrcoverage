@@ -4,8 +4,18 @@
 \alias{corrcov_CI}
 \title{Confidence interval for corrected coverage estimate using Z-scores and MAFs}
 \usage{
-corrcov_CI(z, f, N0, N1, Sigma, thr, W = 0.2, nrep = 1000, CI = 0.95,
-  pp0min = 0.001)
+corrcov_CI(
+  z,
+  f,
+  N0,
+  N1,
+  Sigma,
+  thr,
+  W = 0.2,
+  nrep = 1000,
+  CI = 0.95,
+  pp0min = 0.001
+)
 }
 \arguments{
 \item{z}{Marginal Z-scores}

@@ -4,8 +4,18 @@
 \alias{corrcov_nvar_bhat}
 \title{Corrected coverage estimate using estimated effect sizes and their standard errors (fixing nvar)}
 \usage{
-corrcov_nvar_bhat(bhat, V, N0, N1, Sigma, nvar, thr, W = 0.2,
-  nrep = 10000, pp0min = 0.001)
+corrcov_nvar_bhat(
+  bhat,
+  V,
+  N0,
+  N1,
+  Sigma,
+  nvar,
+  thr,
+  W = 0.2,
+  nrep = 10000,
+  pp0min = 0.001
+)
 }
 \arguments{
 \item{bhat}{Estimated effect sizes from single-SNP logistic regressions}

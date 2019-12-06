@@ -4,8 +4,18 @@
 \alias{corrcov_CI_bhat}
 \title{Confidence interval for corrected coverage estimate using estimated effect sizes and their standard errors}
 \usage{
-corrcov_CI_bhat(bhat, V, N0, N1, Sigma, thr, W = 0.2, nrep = 1000,
-  CI = 0.95, pp0min = 0.001)
+corrcov_CI_bhat(
+  bhat,
+  V,
+  N0,
+  N1,
+  Sigma,
+  thr,
+  W = 0.2,
+  nrep = 1000,
+  CI = 0.95,
+  pp0min = 0.001
+)
 }
 \arguments{
 \item{bhat}{Estimated effect sizes from single-SNP logistic regressions}

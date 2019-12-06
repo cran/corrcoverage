@@ -4,9 +4,20 @@
 \alias{corrected_cs_bhat}
 \title{Corrected credible set using estimated effect sizes and their standard errors}
 \usage{
-corrected_cs_bhat(bhat, V, N0, N1, Sigma, W = 0.2, lower = 0,
-  upper = 1, desired.cov, acc = 0.005, max.iter = 20,
-  pp0min = 0.001)
+corrected_cs_bhat(
+  bhat,
+  V,
+  N0,
+  N1,
+  Sigma,
+  W = 0.2,
+  lower = 0,
+  upper = 1,
+  desired.cov,
+  acc = 0.005,
+  max.iter = 20,
+  pp0min = 0.001
+)
 }
 \arguments{
 \item{bhat}{Estimated effect sizes}

@@ -34,13 +34,13 @@
   stopifnot(inherits(Zj, "numeric"))
   stopifnot(inherits(int.ERR, "matrix"))
   stopifnot(inherits(int.r, "numeric"))
-  zj_pp_arma(Zj, int.Sigma, int.nrep, int.ERR, int.r)
-  # exp.zm = Zj %*% int.Sigma
-  # mexp.zm = matrix(exp.zm, int.nrep, length(Zj), byrow = TRUE)  # matrix of Zj replicated in each row
-  # zstar = mexp.zm + int.ERR
-  # bf = 0.5 * t(log(1 - int.r) + (int.r * t(zstar^2)))
-  # denom = logsum_matrix(bf) # faster
-  # exp(bf - denom)  # convert back from log scale
+  # zj_pp_arma(Zj, int.Sigma, int.nrep, int.ERR, int.r)
+  exp.zm = Zj %*% int.Sigma
+  mexp.zm = matrix(exp.zm, int.nrep, length(Zj), byrow = TRUE)  # matrix of Zj replicated in each row
+  zstar = mexp.zm + int.ERR
+  bf = 0.5 * t(log(1 - int.r) + (int.r * t(zstar^2)))
+  denom = logsum_matrix(bf) # faster
+  exp(bf - denom)  # convert back from log scale
 }
 
 #' @importFrom matrixStats rowMaxs

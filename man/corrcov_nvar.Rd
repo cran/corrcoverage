@@ -4,8 +4,18 @@
 \alias{corrcov_nvar}
 \title{Corrected coverage estimate using Z-scores and MAFs (fixing nvar)}
 \usage{
-corrcov_nvar(z, f, N0, N1, Sigma, nvar, thr, W = 0.2, nrep = 10000,
-  pp0min = 0.001)
+corrcov_nvar(
+  z,
+  f,
+  N0,
+  N1,
+  Sigma,
+  nvar,
+  thr,
+  W = 0.2,
+  nrep = 10000,
+  pp0min = 0.001
+)
 }
 \arguments{
 \item{z}{Marginal Z-scores}
